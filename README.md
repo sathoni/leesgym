@@ -47,9 +47,15 @@ Beide, altijd, in dezelfde publicatie.
 
 ## Publiceren
 
-GitHub Pages, via de workflow in `.github/workflows/pages.yml`.
-Pushen naar `main` volstaat; de workflow zet de site online.
-De repository moet publiek zijn, anders is Pages betalend.
+GitHub Pages, rechtstreeks van de tak `main`. Pushen volstaat; een minuut later
+staat de site online. De repository moet publiek zijn, anders is Pages betalend.
+
+Het lege bestand `.nojekyll` moet blijven staan: het zegt tegen GitHub dat het
+de bestanden ongemoeid moet doorgeven in plaats van ze door Jekyll te halen.
+
+Er staat bewust **geen** GitHub Actions-workflow in. Het token van Mathieu heeft
+geen `workflow`-rechten, dus een workflow-bestand kan niet gepusht worden. Wil
+je dat ooit toch: `gh auth refresh -h github.com -s workflow` en dan opnieuw.
 
 ## Valkuilen die hier al ingebouwd zijn
 
