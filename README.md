@@ -47,15 +47,16 @@ Beide, altijd, in dezelfde publicatie.
 
 ## Publiceren
 
-GitHub Pages, rechtstreeks van de tak `main`. Pushen volstaat; een minuut later
-staat de site online. De repository moet publiek zijn, anders is Pages betalend.
+Pushen naar `main` volstaat. De workflow in `.github/workflows/pages.yml` zet de
+site online, meestal in een twintigtal seconden. Ging er iets mis, dan staat het
+waarom in het logboek: `gh run list --repo sathoni/leesgym` en
+`gh run view <nummer> --log-failed`.
 
-Het lege bestand `.nojekyll` moet blijven staan: het zegt tegen GitHub dat het
-de bestanden ongemoeid moet doorgeven in plaats van ze door Jekyll te halen.
+De repository moet publiek zijn, anders is Pages betalend.
 
-Er staat bewust **geen** GitHub Actions-workflow in. Het token van Mathieu heeft
-geen `workflow`-rechten, dus een workflow-bestand kan niet gepusht worden. Wil
-je dat ooit toch: `gh auth refresh -h github.com -s workflow` en dan opnieuw.
+Het lege bestand `.nojekyll` mag blijven staan. Het is niet meer nodig nu er een
+workflow is, maar het kost niets en het redt je meteen als je ooit terugvalt op
+publiceren rechtstreeks vanaf de tak.
 
 ## Valkuilen die hier al ingebouwd zijn
 
