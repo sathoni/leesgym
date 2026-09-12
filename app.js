@@ -95,7 +95,20 @@ function windowStart(b) {
   var sch = scheduled(), prev = null, i;
   for (i = 0; i < sch.length; i++) { if (sch[i].id === b.id) break; prev = sch[i]; }
   var s = prev && dueOf(prev) ? addDays(parseD(dueOf(prev)), 1) : parseD(START);
-  return s < parseD(START) ? parseD(START) : s;
+  if (s < parseD(START)) s = parseD(START);
+  /* ben je er al in bezig, of is het het boek dat je nu leest, dan staat het
+     venster hoe dan ook open — ook als er een boek voor geschoven is */
+  if (st(b.id).cur > 0 || S.cur === b.id) { var t = today(); if (s > t) s = t; }
+  return s;
+}
+/* de eerstvolgende vrije deadline: dertig dagen na het laatste geplande boek */
+function nextDue() {
+  var sch = scheduled(), base = today();
+  if (sch.length) {
+    var lastDue = parseD(dueOf(sch[sch.length - 1]));
+    if (lastDue > base) base = lastDue;
+  }
+  return dk(addDays(base, 30));
 }
 function started(b) { return windowStart(b) <= today(); }
 function effStart(b) { var w = windowStart(b), t = today(); return w > t ? w : t; }
@@ -798,17 +811,10 @@ function addSave() {
 
   var id = "own-" + Date.now().toString(36);
   var where = UI.draft.where;
-  var last = scheduled();
   var due;
   if (where === "waitlist") due = null;
-  else {
-    var base = today();
-    if (where === "schedule" && last.length) {
-      var lastDue = parseD(dueOf(last[last.length - 1]));
-      if (lastDue > base) base = lastDue;
-    }
-    due = dk(addDays(base, 30));
-  }
+  else if (where === "now") due = dk(addDays(today(), 30));
+  else due = nextDue();
   var art = ART_POOL[S.custom.length % ART_POOL.length];
   S.custom.push({
     id: id, t: t, a: a, p: p, lang: "", tag: "", own: true,
@@ -968,10 +974,11 @@ document.addEventListener("click", function (ev) {
     return;
   }
   if (a === "toschedule") {
+    var nd2 = nextDue();
     for (var c = 0; c < S.custom.length; c++) if (S.custom[c].id === id) {
       S.custom[c].list = "schedule";
-      S.custom[c].due = dk(addDays(today(), 30));
-      S.custom[c].m = monthLabel(S.custom[c].due);
+      S.custom[c].due = nd2;
+      S.custom[c].m = monthLabel(nd2);
     }
     save(); render(); toast("Naar je schema verplaatst."); return;
   }
