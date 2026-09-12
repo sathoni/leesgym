@@ -72,7 +72,8 @@ function byId(id) {
 }
 function scheduled() {
   var out = BOOKS.slice();
-  for (var i = 0; i < S.custom.length; i++) if (S.custom[i].list !== "waitlist") out.push(S.custom[i]);
+  for (var i = 0; i < S.custom.length; i++)
+    if (S.custom[i].list !== "waitlist" && dueOf(S.custom[i])) out.push(S.custom[i]);
   out.sort(function (x, y) { return parseD(dueOf(x)) - parseD(dueOf(y)); });
   return out;
 }
@@ -509,7 +510,7 @@ function viewBooks() {
 
 function bookRow(b) {
   var s = st(b.id), pct = pctOf(b), tot = pagesOf(b), cur = currentBook();
-  var h = '<button class="item" data-a="book" data-id="' + esc(b.id) + '">' + cover(b, "48px") +
+  var h = '<button class="item" data-a="book" data-id="' + esc(b.id) + '">' + cover(b, "54px") +
     '<div class="item-b"><div class="item-t">' + esc(b.t) + "</div>" +
     '<div class="item-a">' + esc(b.a || "—") + "</div>";
   if (s.done) {
@@ -742,11 +743,15 @@ function viewDebrief(id) {
   var s = st(id);
   var qs = CORE_Q.concat(b.q ? [{ id: "qx", label: b.q }] : []);
 
-  var h = '<div class="screen"><button class="back" data-a="back">' + ico("left", 18) + " Uit</button>";
-  h += '<div style="display:flex;gap:16px;align-items:flex-start">' + cover(b, "84px") +
-    '<div style="flex:1;min-width:0"><span class="badge b-green">Uit' + (s.doneAt ? " op " + esc(fShort(parseD(s.doneAt))) : "") + "</span>" +
-    '<h1 class="h2" style="margin-top:8px">' + esc(b.t) + "</h1>" +
-    '<div class="item-a">' + esc(b.a || "—") + "</div></div></div>";
+  var h = '<div class="screen"><div style="display:flex;align-items:center;justify-content:space-between">' +
+    '<button class="back" style="margin:0" data-a="back">' + ico("left", 18) + " Uit</button>" +
+    '<span class="badge b-green" style="gap:5px">' + ico("tick", 12) + " Uitgelezen</span></div>";
+  h += '<div style="display:flex;gap:16px;align-items:flex-start;margin-top:16px">' + cover(b, "84px") +
+    '<div style="flex:1;min-width:0">' +
+    '<h1 class="h2">' + esc(b.t) + "</h1>" +
+    '<div class="item-a">' + esc(b.a || "—") + "</div>" +
+    (s.doneAt ? '<div class="tiny" style="margin-top:6px">uit op ' + esc(fFull(parseD(s.doneAt))) + "</div>" : "") +
+    "</div></div>";
 
   h += '<div class="card pad" style="margin-top:18px"><div class="label">Jouw cijfer</div>' +
     '<div class="stars">';
@@ -766,9 +771,16 @@ function viewDebrief(id) {
   }
   h += "</div>";
 
-  h += '<p class="tiny tc">Alles wordt vanzelf bewaard.</p>';
-  h += '<button class="btn" style="margin-top:16px" data-a="copyq" data-id="' + esc(id) + '">' + ico("copy", 17) + " Kopieer voor Claude</button>";
-  h += '<button class="btn ghost" style="margin-top:10px" data-a="back">Terug naar de plank</button>';
+  var recs = [["ja", "Ja"], ["misschien", "Misschien"], ["nee", "Nee"]];
+  h += '<div style="margin-bottom:8px"><label class="label">Zou je dit boek aanraden?</label><div class="seg">';
+  for (var r = 0; r < recs.length; r++)
+    h += '<button class="' + (s.rec === recs[r][0] ? "on" : "") + '" data-a="rec" data-id="' + esc(id) +
+      '" data-v="' + recs[r][0] + '">' + recs[r][1] + "</button>";
+  h += "</div></div>";
+
+  h += '<p class="tiny tc" style="margin-top:18px">Alles wordt vanzelf bewaard.</p>';
+  h += '<button class="btn" style="margin-top:12px" data-a="savequit">' + ico("tick", 17) + " Bewaren</button>";
+  h += '<button class="btn ghost" style="margin-top:10px" data-a="copyq" data-id="' + esc(id) + '">' + ico("copy", 17) + " Kopieer voor Claude</button>";
   h += "</div>";
   return h;
 }
@@ -900,7 +912,8 @@ function copyAnswers(id) {
   var qs = CORE_Q.concat(b.q ? [{ id: "qx", label: b.q }] : []);
   var out = "Nabespreking — " + b.t + (b.a ? " (" + b.a + ")" : "") + "\n";
   out += "Uitgelezen: " + (s.doneAt ? fFull(parseD(s.doneAt)) + " " + parseD(s.doneAt).getFullYear() : "—") + "\n";
-  out += "Cijfer: " + (s.rating ? s.rating + "/5" : "—") + "\n\n";
+  out += "Cijfer: " + (s.rating ? s.rating + "/5" : "—") + "\n";
+  out += "Aanraden: " + (s.rec || "—") + "\n\n";
   for (var i = 0; i < qs.length; i++)
     out += (i + 1) + ". " + qs[i].label + "\n" + ((s.ans[qs[i].id] || "").trim() || "—") + "\n\n";
   copy(out, "Gekopieerd — plak het in een gesprek met Claude.");
@@ -946,7 +959,7 @@ document.addEventListener("click", function (ev) {
   if (a === "debrief") { UI.screen = { t: "debrief", id: id }; render(); return; }
   if (a === "week") {
     var i = parseInt(el.getAttribute("data-i"), 10);
-    S.weeks[i] = !S.weeks[i]; save(); render(); return;
+    S.weeks[i] = !S.weeks[i]; save(); render(true); return;
   }
   if (a === "tstart") { startTimer(); render(); return; }
   if (a === "tpause") { pauseTimer(); render(); return; }
@@ -955,7 +968,7 @@ document.addEventListener("click", function (ev) {
   if (a === "drop") { clearTimer(); closeSheet(); render(); return; }
   if (a === "x") { closeSheet(); return; }
 
-  if (a === "setcur") { S.cur = id; save(); toast("Dit boek staat nu op Vandaag."); render(); return; }
+  if (a === "setcur") { S.cur = id; save(); toast("Dit boek staat nu op Vandaag."); render(true); return; }
   if (a === "done") {
     markDone(id); save();
     UI.screen = { t: "debrief", id: id }; render();
@@ -963,13 +976,13 @@ document.addEventListener("click", function (ev) {
     return;
   }
   if (a === "undone") {
-    var s0 = st(id); s0.done = false; s0.doneAt = null; save(); render(); return;
+    var s0 = st(id); s0.done = false; s0.doneAt = null; save(); render(true); return;
   }
   if (a === "extend") {
     var b1 = byId(id); if (!b1) return;
     var s1 = st(id);
     var nd = addDays(parseD(dueOf(b1)), 30);
-    s1.due = dk(nd); save(); render();
+    s1.due = dk(nd); save(); render(true);
     toast("Een maand extra: tot " + fShort(nd) + ".");
     return;
   }
@@ -980,19 +993,28 @@ document.addEventListener("click", function (ev) {
       S.custom[c].due = nd2;
       S.custom[c].m = monthLabel(nd2);
     }
-    save(); render(); toast("Naar je schema verplaatst."); return;
+    save(); render(true); toast("Naar je schema verplaatst."); return;
+  }
+  if (a === "rec") {
+    var sr = st(id), v = el.getAttribute("data-v");
+    sr.rec = sr.rec === v ? null : v;
+    save(); render(true); return;
+  }
+  if (a === "savequit") {
+    save(); S.tab = "done"; UI.screen = null; render();
+    toast("Nabespreking bewaard."); return;
   }
   if (a === "star") {
     var n = parseInt(el.getAttribute("data-n"), 10);
     var s2 = st(id);
     s2.rating = s2.rating === n ? 0 : n;
-    save(); render(); return;
+    save(); render(true); return;
   }
   if (a === "photo") {
-    pickPhoto(function (data) { st(id).photo = data; save(); render(); toast("Cover aangepast."); });
+    pickPhoto(function (data) { st(id).photo = data; save(); render(true); toast("Cover aangepast."); });
     return;
   }
-  if (a === "unphoto") { st(id).photo = null; save(); render(); return; }
+  if (a === "unphoto") { st(id).photo = null; save(); render(true); return; }
   if (a === "del") {
     openSheet('<h2 class="h2">Boek verwijderen?</h2><p class="sub">Je voortgang en nabespreking van dit boek gaan mee weg. Dit kan niet terug.</p>' +
       '<div class="btnrow"><button class="btn ghost" data-a="x">Nee</button>' +
