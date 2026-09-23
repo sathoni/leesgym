@@ -413,7 +413,7 @@ function viewToday() {
       "</p>";
   } else {
     h += '<div class="card pad tc" style="margin-top:18px"><div class="h2">Alle boeken uit</div>' +
-      '<p class="sub">Tien boeken van september 2026 tot juli 2027. Je wachtlijst staat klaar bij Boeken.</p></div>';
+      '<p class="sub">Tien boeken van september 2026 tot augustus 2027. Je wachtlijst staat klaar bij Boeken.</p></div>';
   }
 
   /* timer */
@@ -478,7 +478,7 @@ function viewBooks() {
   var f = UI.filter;
   var h = '<div class="screen"><div class="head"><div>' +
     '<h1 class="h1">Mijn boeken</h1>' +
-    '<p class="sub">Tien boeken, september 2026 tot juli 2027.</p></div>' +
+    '<p class="sub">Tien boeken, september 2026 tot augustus 2027.</p></div>' +
     '<button class="fab" data-a="add" aria-label="Boek toevoegen">' + ico("plus", 19) + "</button></div>";
 
   var fs = [["alle", "Alle"], ["bezig", "Bezig"], ["lezen", "Te lezen"], ["uit", "Uit"], ["wacht", "Wachtlijst"]];
@@ -532,7 +532,7 @@ function viewWaitlist() {
   var cats = FUTURE.slice();
   if (mine.length) cats = [{ cat: "Zelf toegevoegd", mine: true, items: mine }].concat(cats);
   var c = clamp(UI.cat, 0, cats.length - 1);
-  var h = '<p class="sub" style="margin-top:14px">Wat er na juli 2027 aankomt, wat doorgeschoven is, en wat je beter niet koopt.</p>';
+  var h = '<p class="sub" style="margin-top:14px">Wat er na augustus 2027 aankomt, wat doorgeschoven is, en wat je beter niet koopt.</p>';
   h += '<div class="chips">';
   for (var i = 0; i < cats.length; i++)
     h += '<button class="chip' + (c === i ? " on" : "") + '" data-a="cat" data-i="' + i + '">' + esc(cats[i].cat) + "</button>";

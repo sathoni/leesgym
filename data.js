@@ -1,74 +1,74 @@
 /* De Leesgym — alle inhoud staat hier, los van de werking in app.js */
 
-var START = "2026-09-13"; // zondag 13 september 2026
+var START = "2026-09-23"; // woensdag 23 september 2026
 
 var BOOKS = [
   {
     id: "atomic", t: "Atomic Habits", a: "James Clear", p: 320, lang: "EN",
-    m: "SEP–OKT '26", due: "2026-10-31", tag: "Start · gewoontes",
+    m: "tot 10 nov '26", due: "2026-11-10", tag: "Start · gewoontes",
     art: { s: "classic", bg: "#EFE7D6", fg: "#1B1B1A", ac: "#D4562E" },
     why: "Je eerste Engelstalige boek ooit, en dat is bewust: dit is het makkelijkste Engels van de hele lijst. Korte zinnen, korte hoofdstukken, geen jargon. Het bouwt bovendien het systeem waarmee je de negen andere afmaakt. Je krijgt er zeven weken voor, precies de periode waarin je van 15 naar 40 minuten per dag klimt.",
     q: "Welke gewoonte heb je effectief veranderd sinds je dit boek las?"
   },
   {
     id: "goal", t: "The Goal", a: "Eliyahu Goldratt", p: 384, lang: "EN", buy: true,
-    m: "NOV '26", due: "2026-11-30", tag: "Supply chain · roman",
+    m: "tot 10 dec '26", due: "2026-12-10", tag: "Supply chain · roman",
     art: { s: "band", bg: "#B23A2E", fg: "#F8F1E4", ac: "#EFC94C" },
     why: "Het belangrijkste boek van je SCM-lijst, geschreven als een roman. Een fabrieksmanager heeft drie maanden om zijn fabriek te redden; onderweg leer je waarom één bottleneck het tempo van je hele keten bepaalt. Je zit dan drie maanden in Odisee — precies het moment waarop dit begint te leven.",
     q: "Welke bottleneck herken je in je eigen week — school, werk, sport? Wat is jouw traagste station?"
   },
   {
     id: "money", t: "The Psychology of Money", a: "Morgan Housel", p: 256, lang: "EN",
-    m: "DEC '26", due: "2026-12-31", tag: "Geld",
+    m: "tot 10 jan '27", due: "2027-01-10", tag: "Geld",
     art: { s: "minimal", bg: "#1C6B72", fg: "#F4EFE4", ac: "#E3B23C" },
-    why: "Korte essays over waarom mensen domme geldbeslissingen nemen: ego, geduld, geluk versus skill. Geen techniek, wel het gedrag dat het grootste deel van je rendement bepaalt. Korte stukken passen goed in een drukke decembermaand.",
+    why: "Korte essays over waarom mensen domme geldbeslissingen nemen: ego, geduld, geluk versus skill. Geen techniek, wel het gedrag dat het grootste deel van je rendement bepaalt. Korte stukken passen goed rond de feestdagen, als je hoofd overal tegelijk zit.",
     q: "Wat zegt dit boek over hoe jij vandaag met geld omgaat?"
   },
   {
     id: "mom", t: "The Mom Test", a: "Rob Fitzpatrick", p: 136, lang: "EN", buy: true,
-    m: "JAN '27", due: "2027-01-31", tag: "Zelf bouwen · examens",
+    m: "tot 10 feb '27", due: "2027-02-10", tag: "Zelf bouwen · examens",
     art: { s: "classic", bg: "#F6F2E7", fg: "#16213A", ac: "#D2402F" },
     why: "Honderdzesendertig pagina's, het kortste boek van de tien, en daarom staat het in je examenmaand. Het is meteen ook het antwoord op je vraag waar er geld te maken valt: niet door je een idee te geven, wel de methode om met mensen te praten en te ontdekken waar ze écht last van hebben.",
     q: "Met wie ga je deze maand praten over een probleem dat je zou kunnen oplossen?"
   },
   {
     id: "box", t: "The Box", a: "Marc Levinson", p: 500, lang: "EN", buy: true,
-    m: "FEB '27", due: "2027-02-28", tag: "Supply chain",
+    m: "tot 10 mrt '27", due: "2027-03-10", tag: "Supply chain",
     art: { s: "band", bg: "#1B3555", fg: "#F2EDE2", ac: "#E07B39" },
     why: "Hoe één stalen doos de wereldeconomie omgooide. Verhalende geschiedenis, geen handboek: havens, vakbonden, kosten die instortten. Je woont naast Antwerpen — dit maakt zichtbaar wat je daar elke dag ziet staan. Vijfhonderd pagina's, maar tegen februari lees je een uur per dag.",
     q: "Wat begreep je over globalisering dat je in de les nog niet gehoord had?"
   },
   {
     id: "hsm", t: "Happy Sexy Millionaire", a: "Steven Bartlett", p: 304, lang: "EN",
-    m: "MRT '27", due: "2027-03-31", tag: "Licht",
+    m: "tot 10 apr '27", due: "2027-04-10", tag: "Licht",
     art: { s: "minimal", bg: "#161616", fg: "#F7F3EA", ac: "#E0A93B" },
     why: "Half memoir, half aanval op de hustlecultuur. Licht en vlot — bewust na vier stevige boeken, om even op adem te komen zonder je ritme te verliezen.",
     q: "Waar ben je het eens en oneens met Bartlett over succes?"
   },
   {
     id: "beleggen", t: "Je bent jong en je wilt… beleggen", a: "Cédric Proost", p: 240, lang: "NL", buy: true,
-    m: "APR '27", due: "2027-04-30", tag: "Geld · Belgisch",
+    m: "tot 10 mei '27", due: "2027-05-10", tag: "Geld · Belgisch",
     art: { s: "classic", bg: "#2C6E49", fg: "#F5F2E7", ac: "#F2C14E" },
     why: "Geschreven voor jonge Belgen die willen starten met beleggen. Legt uit waarom vroeg beginnen zo veel uitmaakt door samengestelde interest, en overloopt de opties met aandacht voor risico en spreiding. Jouw land, jouw leeftijd, jouw taal.",
     q: "Wat ga je concreet doen met je eerste honderd euro — en waarom net dat?"
   },
   {
     id: "war", t: "The Art of War", a: "Sun Tzu", p: 120, lang: "EN",
-    m: "MEI '27", due: "2027-05-31", tag: "Kort · examens",
+    m: "tot 10 jun '27", due: "2027-06-10", tag: "Kort · examens",
     art: { s: "minimal", bg: "#6E1B1B", fg: "#EFD9A3", ac: "#C9A227" },
     why: "Honderdtwintig pagina's in je tweede examenmaand. Kort maar aforistisch, dus neem een editie mét commentaar — anders lees je spreuken en onthou je niets.",
     q: "Welke passage kon je niet plaatsen zonder de toelichting?"
   },
   {
     id: "cointel", t: "Co-Intelligence", a: "Ethan Mollick", p: 256, lang: "EN", buy: true,
-    m: "JUN '27", due: "2027-06-30", tag: "AI",
+    m: "tot 10 jul '27", due: "2027-07-10", tag: "AI",
     art: { s: "band", bg: "#143D5B", fg: "#EDF3F6", ac: "#55B3D9" },
     why: "De minst hypegevoelige gids over werken mét AI: behandel het als een collega en niet als een orakel, hou een mens in de lus, en wees altijd zelf degene die het werk nakijkt. Hoogleraar aan Wharton die het maandenlang zelf uittestte.",
     q: "Hoe verschilt jouw manier van AI gebruiken na dit boek van daarvoor?"
   },
   {
     id: "deugen", t: "De meeste mensen deugen", a: "Rutger Bregman", p: 528, lang: "NL", buy: true,
-    m: "JUL '27", due: "2027-07-31", tag: "Psychologie",
+    m: "tot 10 aug '27", due: "2027-08-10", tag: "Psychologie",
     art: { s: "classic", bg: "#D9602E", fg: "#2A1206", ac: "#F7E7C6" },
     why: "Het dikste boek van de tien, in de vrijste maand van je jaar. Origineel Nederlands geschreven en het leest als een trein. Geen zelfhulp maar echte geschiedenis en psychologie — Bregman haalt beroemde experimenten onderuit. Meteen munitie voor de volwassen gesprekken die je wil kunnen voeren.",
     q: "Welk 'bewijs' over de menselijke natuur bleek na dit boek niet te kloppen?"
