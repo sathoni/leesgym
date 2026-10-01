@@ -413,7 +413,7 @@ function viewToday() {
       "</p>";
   } else {
     h += '<div class="card pad tc" style="margin-top:18px"><div class="h2">Alle boeken uit</div>' +
-      '<p class="sub">Tien boeken van september 2026 tot augustus 2027. Je wachtlijst staat klaar bij Boeken.</p></div>';
+      '<p class="sub">Tien boeken van oktober 2026 tot augustus 2027. Je wachtlijst staat klaar bij Boeken.</p></div>';
   }
 
   /* timer */
@@ -478,7 +478,7 @@ function viewBooks() {
   var f = UI.filter;
   var h = '<div class="screen"><div class="head"><div>' +
     '<h1 class="h1">Mijn boeken</h1>' +
-    '<p class="sub">Tien boeken, september 2026 tot augustus 2027.</p></div>' +
+    '<p class="sub">Tien boeken, oktober 2026 tot augustus 2027.</p></div>' +
     '<button class="fab" data-a="add" aria-label="Boek toevoegen">' + ico("plus", 19) + "</button></div>";
 
   var fs = [["alle", "Alle"], ["bezig", "Bezig"], ["lezen", "Te lezen"], ["uit", "Uit"], ["wacht", "Wachtlijst"]];
