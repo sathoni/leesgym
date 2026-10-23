@@ -1,14 +1,14 @@
 /* De Leesgym — service worker.
    Het versienummer hieronder MOET bij elke publicatie veranderen,
    anders blijft de oude versie op de telefoon staan. */
-var V = "leesgym-v3";
+var V = "leesgym-v4";
 
 var ASSETS = [
   "./",
   "./index.html",
-  "./styles.css?v=3",
-  "./data.js?v=3",
-  "./app.js?v=3",
+  "./styles.css?v=4",
+  "./data.js?v=4",
+  "./app.js?v=4",
   "./manifest.webmanifest",
   "./icons/apple-touch-icon.png",
   "./icons/icon-192.png",
